@@ -46,7 +46,8 @@ const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const digits4 = () => String(1000 + Math.floor(Math.random() * 9000));
 const uid = () => (globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`);
 // Synthetic caller/contact numbers stay in the 555-01xx fiction range.
-const fakePhone = () => `555${digits4()}${String(Math.floor(Math.random() * 10))}`.slice(0, 10);
+// Valid 10-digit fiction number: 555 + 7 digits (the 555 area keeps it clearly fake).
+const fakePhone = () => `555${String(1000000 + Math.floor(Math.random() * 8999999))}`;
 
 function weightedSource() {
   const total = SOURCE_MIX.reduce((n, [, w]) => n + w, 0);
