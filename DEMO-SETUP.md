@@ -38,7 +38,9 @@ Open `/` (dashboard), `/leads` (table + CSV export), `/analytics`. Re-run `demo-
    | `CRON_SECRET` | optional; a random string (Vercel Cron will send it) |
    | `DASHBOARD_PASSWORD` | leave **unset** for open access |
 
-3. Deploy. `vercel.json` registers the drain cron (`*/15`), the backstop processor.
+3. Deploy. `vercel.json` registers the drain cron (daily — the reliability backstop; Vercel's
+   Hobby/free tier caps cron at one run per day, and real-time processing is on the `after()` path
+   at ingest, not the cron).
 4. Seed the deployed DB (run once, locally, pointed at the same Neon DB):
    ```bash
    npm run migrate && npm run seed
@@ -51,6 +53,6 @@ Open `/` (dashboard), `/leads` (table + CSV export), `/analytics`. Re-run `demo-
 
 - **Shadow mode stays on.** The demo never makes real CRM calls; the "write" step is computed and
   logged (`would_write`) so the whole pipeline is visible without any external credentials.
-- **Neon free tier** scales compute to zero after ~5 min idle; the 15-min cron is deliberately above
-  that so it doesn't hold the DB awake. First request after idle has a cold-start delay.
+- **Neon free tier** scales compute to zero after ~5 min idle; the daily cron won't hold the DB
+  awake. First request after idle has a cold-start delay.
 - All seeded data is synthetic — safe to wipe and re-seed anytime.

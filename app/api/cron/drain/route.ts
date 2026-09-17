@@ -1,11 +1,12 @@
-// Cron drain — the reliability backstop. Runs every 15 min (see vercel.json). Claims due/stuck leads
+// Cron drain — the reliability backstop. Runs daily (see vercel.json). Claims due/stuck leads
 // and processes them, catching anything the after() fast path missed (a function killed mid-flight, a
 // retry that's now due, a row stuck in 'processing' past the visibility timeout).
 //
-// ⚠ Cadence note: Neon's free tier scales the DB compute to zero after 5 min idle (locked, not
-// configurable). A sub-5-min cron would keep the compute awake 24/7 and burn the free compute allowance,
-// so keep this comfortably >5 min. The real-time path is after() on ingest; this is only the backstop —
-// slower is fine while we're in shadow. Crank it back up (or move to a paid Neon plan) near cutover.
+// ⚠ Cadence note: the REAL-TIME path is after() on ingest — the cron is only the backstop, so its
+// frequency is not on the critical path. This demo runs it once a day: Vercel's Hobby (free) tier
+// caps cron jobs at one run per day, and a daily drain is plenty for a backstop (and it won't keep
+// Neon's free-tier compute — which scales to zero after ~5 min idle — awake). In production you'd
+// crank this up (e.g. */15) on a paid plan.
 //
 // Auth: Vercel Cron sends `Authorization: Bearer <CRON_SECRET>` when CRON_SECRET is set in the project
 // env. We also accept `?secret=` for manual/local invocation.
