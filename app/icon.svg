@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Summit Home Improvement">
+  <rect width="64" height="64" rx="12" fill="#14532d"/>
+  <path d="M14 46 L28 22 L36 34 L42 26 L52 46 Z" fill="#86efac"/>
+  <path d="M28 22 L33 30 L30 33 L24 30 Z" fill="#ffffff"/>
+  <circle cx="47" cy="20" r="4" fill="#86efac"/>
+</svg>

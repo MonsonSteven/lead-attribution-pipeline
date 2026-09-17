@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css2?family=Baskervville&family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+  --brand-blue: #14532d;
+  --brand-blue-light: #86efac;
+  --white: #ffffff;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --ok: #15803d;
+  --warn: #b45309;
+  --font-head: 'Baskervville', Georgia, 'Times New Roman', serif;
+  --font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--font-head);
+  color: var(--brand-blue);
+  margin: 0 0 0.4em;
+}
+a {
+  color: var(--brand-blue);
+}
+
+.site-header {
+  background: var(--brand-blue);
+  color: var(--white);
+  padding: 14px 24px;
+}
+.site-header h1 {
+  color: var(--white);
+  font-size: 1.25rem;
+}
+.site-header .sub {
+  color: var(--brand-blue-light);
+  font-size: 0.8rem;
+}
+.header-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+}
+.header-logo {
+  height: 52px;
+  width: auto;
+  display: block;
+}
+.site-nav {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.site-nav a {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.site-nav a:hover {
+  text-decoration: underline;
+}
+.site-nav a.logout {
+  color: var(--brand-blue-light);
+}
+
+/* Mobile: drop the subtitle, shrink the logo, put the title beside a small logo on row 1 and let the
+   nav own row 2 — so the bar stops feeling cramped on a phone. */
+@media (max-width: 640px) {
+  .site-header {
+    padding: 10px 16px;
+  }
+  .header-inner {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 8px 12px;
+  }
+  .header-logo {
+    grid-area: 1 / 1;
+    height: 34px;
+  }
+  .header-title {
+    grid-area: 1 / 2;
+    align-self: center;
+  }
+  .site-header h1 {
+    font-size: 1.05rem;
+    line-height: 1.15;
+  }
+  .site-header .sub {
+    display: none;
+  }
+  .site-nav {
+    grid-area: 2 / 1 / 3 / 3;
+    justify-content: flex-start;
+    gap: 8px 18px;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding-top: 8px;
+  }
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+/* On phones the auto-fit grid drops to 1 column (tall stack); force a compact 2-up instead. */
+@media (max-width: 520px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+}
+
+/* Leads filter bar — wraps on desktop, stacks full-width (easy tapping) on phones. */
+.leads-filter { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; margin: 12px 0 20px; }
+@media (max-width: 520px) {
+  .leads-filter { flex-direction: column; align-items: stretch; }
+  .leads-filter > * { width: 100%; }
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px;
+}
+.card .label {
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.card .value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--brand-blue);
+}
+.card .note {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: var(--brand-blue-light);
+  color: var(--brand-blue);
+}
+
+/* ── Analytics dashboard ── */
+:root {
+  /* categorical palette — validated colorblind-safe (dataviz skill); #00338e stays chrome/text */
+  --c-blue: #2563eb; --c-amber: #d97706; --c-teal: #0d9488; --c-violet: #7c3aed; --c-sky: #0284c7; --c-green: #15803d; --c-slate: #64748b;
+  --grid: #eef2f8;
+}
+.a-eyebrow { font-size: .68rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.a-kpi .lab { font-size: .72rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.a-kpi .big { font-family: var(--font-head); font-size: 2.1rem; line-height: 1; margin: 8px 0 4px; color: var(--brand-blue); font-variant-numeric: tabular-nums; }
+.a-kpi .sub { font-size: .78rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.a-trend { font-weight: 600; } .a-trend.up { color: var(--ok); } .a-trend.down { color: var(--warn); }
+.a-seg { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
+.a-seg a, .a-seg button { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: .8rem; font-weight: 500; padding: 5px 12px; border-radius: 6px; cursor: pointer; text-decoration: none; }
+.a-seg a[aria-current="true"], .a-seg button[aria-pressed="true"] { background: var(--brand-blue); color: #fff; }
+.a-sel select { appearance: none; background: var(--card); border: 1px solid var(--line); border-radius: 9px; color: var(--ink); font: inherit; font-size: .8rem; padding: 8px 30px 8px 11px; cursor: pointer; }
+.a-legend { display: flex; flex-wrap: wrap; gap: 7px 16px; }
+.a-legend .it { display: inline-flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--muted); }
+.a-legend .sw { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+.a-legend .v { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.a-axis { fill: var(--muted); font-size: 11px; }
+.a-gridline { stroke: var(--grid); stroke-width: 1; }
+.a-barlab { fill: var(--muted); font-size: 12px; }
+.a-barval { fill: var(--ink); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.a-tip { position: absolute; pointer-events: none; background: var(--card); border: 1px solid var(--line); border-radius: 9px; box-shadow: 0 4px 16px rgba(15,30,61,.12); padding: 9px 11px; font-size: .78rem; min-width: 150px; opacity: 0; transition: opacity .1s; z-index: 5; }
+.a-tip .d { font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.a-tip .r { display: flex; align-items: center; justify-content: space-between; gap: 14px; color: var(--muted); }
+.a-tip .r b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.a-empty { color: var(--muted); font-size: .85rem; padding: 20px 0; text-align: center; }
+/* Responsive analytics grids — 4-up KPIs + side-by-side chart pairs on desktop, stacking down on phones. */
+.a-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 16px; }
+.a-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+@media (max-width: 900px) { .a-kpis { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) { .a-duo { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .a-tip { transition: none; } }
