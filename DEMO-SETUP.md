@@ -38,9 +38,10 @@ Open `/` (dashboard), `/leads` (table + CSV export), `/analytics`. Re-run `demo-
    | `CRON_SECRET` | optional; a random string (Vercel Cron will send it) |
    | `DASHBOARD_PASSWORD` | leave **unset** for open access |
 
-3. Deploy. `vercel.json` registers the drain cron (daily — the reliability backstop; Vercel's
-   Hobby/free tier caps cron at one run per day, and real-time processing is on the `after()` path
-   at ingest, not the cron).
+3. Deploy. `vercel.json` registers two daily crons (Hobby's max): the drain (reliability backstop;
+   real-time processing is on the `after()` path at ingest, not the cron) and **demo-refresh** — a
+   demo-only job that re-stamps the synthetic leads to the last 30 days so the analytics graphs stay
+   populated no matter how long ago the data was seeded (`scripts/demo-seed.mjs` also calls it once).
 4. Seed the deployed DB (run once, locally, pointed at the same Neon DB):
    ```bash
    npm run migrate && npm run seed

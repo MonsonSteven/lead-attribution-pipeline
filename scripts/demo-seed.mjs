@@ -19,8 +19,9 @@
 //   RECEIVER_WEBHOOK_SECRET  sent as x-webhook-secret if the deployment requires it
 
 const BASE_URL = (process.env.BASE_URL ?? 'http://localhost:3000').replace(/\/$/, '');
-const COUNT = Number(process.env.COUNT ?? 60);
+const COUNT = Number(process.env.COUNT ?? 240);
 const SECRET = process.env.RECEIVER_WEBHOOK_SECRET ?? '';
+const CRON_SECRET = process.env.CRON_SECRET ?? '';
 
 const FIRST = ['Alex', 'Jordan', 'Taylor', 'Casey', 'Morgan', 'Riley', 'Jamie', 'Avery', 'Quinn', 'Sky', 'Drew', 'Reese', 'Sam', 'Devon', 'Harper', 'Rowan', 'Blake', 'Emerson', 'Parker', 'Hayden'];
 const LAST = ['Rivera', 'Avery', 'Brooks', 'Morgan', 'Bennett', 'Coleman', 'Fisher', 'Grant', 'Hayes', 'Iverson', 'Jennings', 'Klein', 'Lowe', 'Mercer', 'Nolan', 'Osborn', 'Porter', 'Quill', 'Reyes', 'Sutton'];
@@ -179,6 +180,18 @@ async function main() {
 
   console.log(`\n\n✅ done — ${sent} accepted, ${failed} failed`);
   console.log('   by source:', tally);
+
+  // Spread the just-captured leads across the last 30 days so the analytics graphs look alive
+  // immediately (they'd otherwise all sit on today). The daily cron keeps them fresh thereafter.
+  try {
+    const url = `${BASE_URL}/api/cron/demo-refresh${CRON_SECRET ? `?secret=${encodeURIComponent(CRON_SECRET)}` : ''}`;
+    const r = await fetch(url);
+    const body = await r.json().catch(() => ({}));
+    console.log(r.ok ? `   spread ${body.refreshed ?? '?'} leads across the last ${body.spreadDays ?? 30} days ✓` : `   ⚠ demo-refresh returned ${r.status}`);
+  } catch (err) {
+    console.log(`   ⚠ demo-refresh call failed: ${err.message} (run /api/cron/demo-refresh manually)`);
+  }
+
   console.log('   view the dashboard, /leads and /analytics to see them flow.');
 }
 
